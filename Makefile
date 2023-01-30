@@ -46,6 +46,23 @@ openssh:
 	make -j10; make install
 	cd ${HOME}/opt
 
+${HOME}/.ssh/id_rsa_maomlab.pub:
+	ssh-keygen -t ed25519 -f ${HOME}/.ssh/id_rsa_maomlab -q -N ""
+
+${HOME}/.ssh/id_rsa_momeara.pub:
+	ssh-keygen -t ed25519 -f ${HOME}/.ssh/id_rsa_momeara -q -N ""
+
+${HOME}/.ssh/id_ed25519.pub:
+	ssh-keygen -t ed25519 -f ${HOME}/.ssh -q -N ""
+
+github_register_sshkeys: ${HOME}/.ssh/id_rsa_maomlab
+	@echo "Login as maomlab to github and pload this key:\n"
+	@cat ${HOME}/.ssh/id_rsa_maomlab
+	@echo "https://github.com/settings/ssh/new"
+
+# setup ssh routing for multiple acounts
+${HOME}/.ssh/config:
+	cp .ssh/config ${HOME}/.ssh/config
 
 #######################
 # Install build tools #
