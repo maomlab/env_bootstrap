@@ -29,7 +29,22 @@ opt_directories:
 	echo "export LIBDIR=${HOME}/opt/lib" >> ${HOME}/.bash_profile
 	echo "export LD_LIBRARY_PATH=${HOME}/opt/:${HOME}/lib64:$LD_LIBRARY_PATH" >> ${HOME}/.bash_profile
 
+####################
+# Networking tools #
+####################
 
+# GIT Requires ssh > 7.2
+# https://github.blog/2021-09-01-improving-git-protocol-security-github/
+# check with ssh -V
+openssh:
+	cd ${HOME}/opt
+	wget openssh-9.1p1.tar.gz
+	tar xzvf openssh-9.1p.tar.gz
+	rm -rf openssh-9.1p.tar.gz
+	cd openssh-9.1p
+	./configure --prefix=${HOME}/opt
+	make -j10; make install
+	cd ${HOME}/opt
 
 
 #######################
@@ -122,10 +137,6 @@ ${HOME}/opt/bin/tmux:
 	make -j10
 	make install
 
-
-
-
-
 install_jansson:
 	cd ${HOME}/opt
 	curl -O -L https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
@@ -148,8 +159,9 @@ ${HOME}/opt/bin/emacs:
 	make install
 
 setup_emacs:
-	mkdir -p ${HOME}/.emacs.d && ln -s $(pwd)/.emacs.d/* ${HOME}/.emacs.d/
-	emacs --script ${HOME}/.emacs.d/setup.el
+	mkdir -p ${HOME}/.emacs.d
+	ln -s $(pwd)/.emacs.d/* ${HOME}/.emacs.d/
+	emacs --script ${HOME}/.emacs.d/install.el
 
 
 
